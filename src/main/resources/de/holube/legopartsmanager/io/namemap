@@ -1,0 +1,5 @@
+partID / part_num -> designID
+
+colorID: int
+elementID: String
+designID: String

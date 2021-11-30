@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.holube.legopartsmanager.HelloController">
+    <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <HBox>
+            <TextField fx:id="searchTextField" />
+            <Button alignment="CENTER" mnemonicParsing="false" onAction="#onSearchButtonPressed" prefWidth="75.0" text="Search" />
+         <TextField fx:id="imageSizeField" text="50" />
+        </HBox>
+        <TableView fx:id="mainTableView" VBox.vgrow="ALWAYS">
+            <columns>
+
+                <TableColumn fx:id="imageColumn" editable="false" prefWidth="75.0" text="Image" />
+                <TableColumn fx:id="designIDColumn" editable="false" prefWidth="75.0" text="Design-ID" />
+                <TableColumn fx:id="colorIDColumn" editable="false" prefWidth="75.0" text="Color" />
+                <TableColumn fx:id="elementIDColumn" editable="false" prefWidth="75.0" text="Element-ID" />
+                <TableColumn fx:id="descriptionColumn" editable="false" prefWidth="75.0" text="Description" />
+                <TableColumn fx:id="titanicColumn" prefWidth="75.0" text="Titanic" />
+                <TableColumn fx:id="ownColumn" prefWidth="75.0" text="Own" />
+            </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+        </TableView>
+    </VBox>
+</AnchorPane>
