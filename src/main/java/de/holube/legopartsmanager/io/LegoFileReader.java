@@ -1,11 +1,8 @@
 package de.holube.legopartsmanager.io;
 
-import de.holube.legopartsmanager.log.Log;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
