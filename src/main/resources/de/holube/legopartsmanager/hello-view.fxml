@@ -8,6 +8,7 @@
         <HBox>
             <TextField fx:id="searchTextField" />
             <Button alignment="CENTER" mnemonicParsing="false" onAction="#onSearchButtonPressed" prefWidth="75.0" text="Search" />
+            <Button alignment="CENTER" mnemonicParsing="false" onAction="#onLoadButtonPressed" prefWidth="75.0" text="Load" />
          <TextField fx:id="imageSizeField" text="50" />
         </HBox>
         <TableView fx:id="mainTableView" VBox.vgrow="ALWAYS">

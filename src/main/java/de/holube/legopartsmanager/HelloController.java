@@ -17,6 +17,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.util.stream.Collectors;
+
 public class HelloController implements EventBusSubscriber {
 
     @FXML
@@ -44,11 +46,16 @@ public class HelloController implements EventBusSubscriber {
     private TableColumn<LegoTableItem, Number> setColumn;
 
     private final ObservableList<LegoTableItem> items = FXCollections.observableArrayList();
+    private ObservableList<LegoTableItem> filteredItems = FXCollections.observableArrayList();
 
-
+    @FXML
     public void onSearchButtonPressed(ActionEvent actionEvent) {
-        subscribe();
-        EventBus.post(new SearchRequestEvent(searchTextField.getText()));
+        if (!searchTextField.getText().isBlank()) {
+            filteredItems = FXCollections.observableArrayList(items.stream().filter(item -> item.descriptionProperty().getValue() != null && item.descriptionProperty().getValue().contains(searchTextField.getText())).collect(Collectors.toList()));
+            mainTableView.setItems(filteredItems);
+        } else {
+            mainTableView.setItems(items);
+        }
     }
 
     @Override
@@ -95,5 +102,11 @@ public class HelloController implements EventBusSubscriber {
     @Override
     public void subscribe() {
         EventBus.subscribe(this);
+    }
+
+    @FXML
+    public void onLoadButtonPressed(ActionEvent actionEvent) {
+        subscribe();
+        EventBus.post(new SearchRequestEvent(searchTextField.getText()));
     }
 }
