@@ -17,7 +17,8 @@ import java.util.List;
 public class HelloApplication extends Application implements EventBusSubscriber {
 
     private LegoSet titanicSet = new LegoSet("Titanic", "titanic.csv");
-    private LegoSet ownSet = new LegoSet("Own", "mine.csv");
+    private LegoSet falconSet = new LegoSet("Millennium Falcon", "millennium-falcon.csv");
+    private OwnLegoSet ownSet = new OwnLegoSet("mine.csv");
 
     private LegoTableBuilder legoTableBuilder = new LegoTableBuilder();
 
@@ -41,8 +42,8 @@ public class HelloApplication extends Application implements EventBusSubscriber 
         if (event instanceof SearchRequestEvent) {
             List<LegoSet> setsToShow = new ArrayList<>();
             setsToShow.add(titanicSet);
-            setsToShow.add(ownSet);
-            legoTableBuilder.prepareElementsInSets(setsToShow, ((SearchRequestEvent) event).getText());
+            setsToShow.add(falconSet);
+            legoTableBuilder.prepareElementsInSets(setsToShow, ownSet);
         }
     }
 

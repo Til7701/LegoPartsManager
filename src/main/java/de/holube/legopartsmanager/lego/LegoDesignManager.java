@@ -6,6 +6,7 @@ import de.holube.legopartsmanager.log.Log;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Maps from Design IDs to Designs (Description, Category, Material)
@@ -18,8 +19,11 @@ public class LegoDesignManager {
         readDesigns(filename);
     }
 
-    public LegoDesign getDesign(String partID) {
-        return designMap.get(partID);
+    public Optional<LegoDesign> getDesign(String partID) {
+        if (designMap.get(partID) == null) {
+            return Optional.empty();
+        }
+        return Optional.of(designMap.get(partID));
     }
 
     private void readDesigns(String filename) {

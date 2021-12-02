@@ -15,11 +15,9 @@
 
                 <TableColumn fx:id="imageColumn" editable="false" prefWidth="75.0" text="Image" />
                 <TableColumn fx:id="designIDColumn" editable="false" prefWidth="75.0" text="Design-ID" />
-                <TableColumn fx:id="colorIDColumn" editable="false" prefWidth="75.0" text="Color" />
-                <TableColumn fx:id="elementIDColumn" editable="false" prefWidth="75.0" text="Element-ID" />
                 <TableColumn fx:id="descriptionColumn" editable="false" prefWidth="75.0" text="Description" />
-                <TableColumn fx:id="titanicColumn" prefWidth="75.0" text="Titanic" />
                 <TableColumn fx:id="ownColumn" prefWidth="75.0" text="Own" />
+                <TableColumn fx:id="setColumn" prefWidth="75.0" text="Sets" />
             </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
