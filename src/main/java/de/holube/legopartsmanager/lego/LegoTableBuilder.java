@@ -7,10 +7,10 @@ import javafx.scene.image.Image;
 
 import java.net.URL;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class LegoTableBuilder {
 
+    private String errorImage = Objects.requireNonNull(getClass().getResource("error-image.png")).toExternalForm();
 
     public LegoTableBuilder() {
 
@@ -32,6 +32,8 @@ public class LegoTableBuilder {
             }
         }
 
+        designIDsToShow.addAll(ownSet.getDesignMap().keySet());
+
         for (String designID : designIDsToShow) {
             LegoTableItem item = new LegoTableItem();
 
@@ -40,6 +42,7 @@ public class LegoTableBuilder {
                 item.setImage(new Image(path.toExternalForm()));
             } else {
                 Log.waring("Image not found: parts_0/" + designID + ".png");
+                item.setImage(new Image(errorImage));
             }
 
             item.setDesignID(designID);
