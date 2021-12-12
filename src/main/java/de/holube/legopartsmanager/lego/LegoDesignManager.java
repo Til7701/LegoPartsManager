@@ -30,7 +30,22 @@ public class LegoDesignManager {
         List<String> fileLines = LegoFileReader.readFile(filename);
 
         for (int i = 1; i < fileLines.size(); i++) {
-            String[] lineArray = fileLines.get(i).split(",");
+            String[] lineArray;
+            if (fileLines.get(i).contains("\"")) {
+                try {
+                    String[] tmp = fileLines.get(i).split("\"");
+                    lineArray = new String[4];
+                    lineArray[0] = tmp[0].substring(0, tmp[0].length() - 1);
+                    lineArray[1] = tmp[1];
+                    String[] tmp2 = tmp[tmp.length - 1].split(",");
+                    lineArray[2] = tmp2[1];
+                    lineArray[3] = tmp2[2];
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    lineArray = new String[0];
+                }
+            } else {
+                lineArray = fileLines.get(i).split(",");
+            }
             if (lineArray.length == 4) {
                 designMap.put(lineArray[0], new LegoDesign(lineArray[1], Integer.parseInt(lineArray[2]), lineArray[3]));
             } else {
