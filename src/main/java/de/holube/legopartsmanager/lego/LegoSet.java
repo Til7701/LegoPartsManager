@@ -34,7 +34,14 @@ public class LegoSet {
         for (int i = 1; i < fileLines.size(); i++) {
             String[] lineArray = fileLines.get(i).split(",");
             if (lineArray.length == 4) {
-                elementMap.put(LegoDatabase.getLegoElementManager().getElementID(new LegoElement(lineArray[0], Integer.parseInt(lineArray[1]))), Integer.parseInt(lineArray[2]));
+                String elementID = LegoDatabase.getLegoElementManager().getElementID(new LegoElement(LegoDesign.getSimpleDesignID(lineArray[0]), Integer.parseInt(lineArray[1])));
+                int quantity;
+                if (elementMap.containsKey(elementID)) {
+                    quantity = elementMap.get(elementID) + Integer.parseInt(lineArray[2]);
+                } else {
+                    quantity = Integer.parseInt(lineArray[2]);
+                }
+                elementMap.put(elementID, quantity);
             } else {
                 Log.waring("Not properly defined Part in " + filename + " line: " + i + ": " + fileLines.get(i));
             }
