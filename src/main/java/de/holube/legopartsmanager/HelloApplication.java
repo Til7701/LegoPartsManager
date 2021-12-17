@@ -18,7 +18,7 @@ public class HelloApplication extends Application implements EventBusSubscriber 
 
     private LegoSet titanicSet = new LegoSet("Titanic", "titanic.csv");
     private LegoSet falconSet = new LegoSet("Millennium Falcon", "millennium-falcon.csv");
-    private OwnLegoSet ownSet = new OwnLegoSet("mine.csv");
+    private OwnLegoSet ownSet = new OwnLegoSet("ist-aufstellung.csv");
 
     private LegoTableBuilder legoTableBuilder = new LegoTableBuilder();
 
@@ -42,7 +42,7 @@ public class HelloApplication extends Application implements EventBusSubscriber 
         if (event instanceof SearchRequestEvent) {
             List<LegoSet> setsToShow = new ArrayList<>();
             setsToShow.add(titanicSet);
-            setsToShow.add(falconSet);
+            //setsToShow.add(falconSet);
             legoTableBuilder.prepareElementsInSets(setsToShow, ownSet);
         }
     }

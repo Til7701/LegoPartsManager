@@ -14,6 +14,7 @@ public class LegoTableItem {
     private final StringProperty description = new SimpleStringProperty();
     private final IntegerProperty own = new SimpleIntegerProperty();
     private final Map<String, StringProperty> elementsList = new HashMap<>();
+    private final IntegerProperty diff = new SimpleIntegerProperty();
 
     public void setImage(Image image) {
         this.image.setValue(image);
@@ -75,5 +76,17 @@ public class LegoTableItem {
         }
 
         this.elementsList.put(setName,new SimpleStringProperty(builder.toString()));
+    }
+
+    public int getDiff() {
+        return diff.get();
+    }
+
+    public IntegerProperty diffProperty() {
+        return diff;
+    }
+
+    public void setDiff(int diff) {
+        this.diff.set(diff);
     }
 }

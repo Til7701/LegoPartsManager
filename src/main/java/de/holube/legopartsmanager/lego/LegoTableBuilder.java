@@ -54,6 +54,7 @@ public class LegoTableBuilder {
             item.setOwn(ownSet.getQuantity(designID));
 
             List<LegoTableSetItem> legoTableSetItemList = new ArrayList<>();
+            int fullAmount = 0;
             for (LegoSet set : list) {
                 for (String elementID : set.getElementIDs()) {
                     LegoElement element = LegoDatabase.getLegoElementManager().getElement(elementID);
@@ -62,10 +63,12 @@ public class LegoTableBuilder {
                                 LegoDatabase.getLegoElementManager().getElement(elementID).getColorID(),
                                 set.getQuantity(elementID).orElse(0))
                         );
+                        fullAmount += set.getQuantity(elementID).orElse(0);
                     }
                 }
                 item.setElements(legoTableSetItemList, set.getName());
             }
+            item.setDiff(ownSet.getQuantity(designID) - fullAmount);
 
             items.add(item);
         }
