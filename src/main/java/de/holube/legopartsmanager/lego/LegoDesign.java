@@ -35,4 +35,8 @@ public class LegoDesign {
     public void setMaterial(String material) {
         this.material = material;
     }
+
+    public static String getSimpleDesignID(String designID) {
+        return designID.split("[a-z]")[0];
+    }
 }

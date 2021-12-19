@@ -46,8 +46,18 @@ public class LegoDesignManager {
             } else {
                 lineArray = fileLines.get(i).split(",");
             }
+
             if (lineArray.length == 4) {
-                designMap.put(lineArray[0], new LegoDesign(lineArray[1], Integer.parseInt(lineArray[2]), lineArray[3]));
+                String designID = "";
+                try {
+                    designID = LegoDesign.getSimpleDesignID(lineArray[0]);
+                } catch (Exception e) {
+                    Log.waring("Not properly defined Design in " + filename + " line: " + i + ": " + fileLines.get(i));
+                    continue;
+                }
+                if (!designMap.containsKey(designID)) {
+                    designMap.put(designID, new LegoDesign(lineArray[1], Integer.parseInt(lineArray[2]), lineArray[3]));
+                }
             } else {
                 Log.waring("Not properly defined Design in " + filename + " line: " + i + ": " + fileLines.get(i));
             }
