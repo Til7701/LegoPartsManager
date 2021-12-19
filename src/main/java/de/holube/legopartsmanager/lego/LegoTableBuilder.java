@@ -37,11 +37,11 @@ public class LegoTableBuilder {
         for (String designID : designIDsToShow) {
             LegoTableItem item = new LegoTableItem();
 
-            URL path = getClass().getResource("parts_0/" + designID + ".png");
+            URL path = getClass().getResource("parts/" + designID + ".png");
             if (path != null) {
                 item.setImage(new Image(path.toExternalForm()));
             } else {
-                Log.waring("Image not found: parts_0/" + designID + ".png");
+                Log.waring("Image not found: parts/" + designID + ".png");
                 item.setImage(new Image(errorImage));
             }
 
