@@ -9,6 +9,7 @@
             <TextField fx:id="searchTextField" />
             <Button alignment="CENTER" mnemonicParsing="false" onAction="#onSearchButtonPressed" prefWidth="75.0" text="Search" />
             <Button alignment="CENTER" mnemonicParsing="false" onAction="#onLoadButtonPressed" prefWidth="75.0" text="Load" />
+            <Button alignment="CENTER" mnemonicParsing="false" onAction="#onSaveButtonPressed" prefWidth="75.0" text="Save" />
             <TextField fx:id="imageSizeField" text="50" />
             <Label fx:id="itemCountLabel" text="not loaded"/>
             <CheckBox text="to Buy" onAction="#onToBuy" fx:id="toBuyCheckBox" />

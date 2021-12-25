@@ -5,7 +5,9 @@ import de.holube.legopartsmanager.eventbus.EventBus;
 import de.holube.legopartsmanager.eventbus.EventBusSubscriber;
 import de.holube.legopartsmanager.eventbus.events.SearchRequestEvent;
 import de.holube.legopartsmanager.eventbus.events.ShowInTableEvent;
+import de.holube.legopartsmanager.io.LegoFileWriter;
 import de.holube.legopartsmanager.lego.LegoTableItem;
+import de.holube.legopartsmanager.log.Log;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,6 +16,9 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class HelloController implements EventBusSubscriber {
@@ -51,8 +56,9 @@ public class HelloController implements EventBusSubscriber {
     @FXML
     private TableColumn<LegoTableItem, Number> diffColumn;
 
-    private final ObservableList<LegoTableItem> items = FXCollections.observableArrayList();
-    private ObservableList<LegoTableItem> filteredItems = FXCollections.observableArrayList();
+    private final List<String> setNames = new ArrayList<>();
+    private final ObservableList<LegoTableItem> allItems = FXCollections.observableArrayList();
+    private ObservableList<LegoTableItem> showedItems = FXCollections.observableArrayList();
 
     @FXML
     public void onSearchButtonPressed(ActionEvent actionEvent) {
@@ -67,25 +73,24 @@ public class HelloController implements EventBusSubscriber {
     private void filter() {
         if (toBuyCheckBox.isSelected() || !searchTextField.getText().isBlank()) {
             if (!searchTextField.getText().isBlank()) {
-                filteredItems = FXCollections.observableArrayList(items.stream().filter(item -> (item.descriptionProperty().getValue() != null
+                showedItems = FXCollections.observableArrayList(allItems.stream().filter(item -> (item.descriptionProperty().getValue() != null
                         && item.descriptionProperty().getValue().contains(searchTextField.getText()))
                         || item.designIDProperty().getValue().contains(searchTextField.getText())).collect(Collectors.toList())
                 );
             } else {
-                filteredItems = items;
+                showedItems = allItems;
             }
 
             if (toBuyCheckBox.isSelected()) {
-                filteredItems = FXCollections.observableArrayList(filteredItems.stream().filter(item -> item.diffProperty().getValue() < 0).collect(Collectors.toList()));
+                showedItems = FXCollections.observableArrayList(showedItems.stream().filter(item -> item.diffProperty().getValue() < 0).collect(Collectors.toList()));
             }
 
-            mainTableView.setItems(filteredItems);
-            itemCountLabel.setText(String.valueOf(filteredItems.size()));
         } else {
-            mainTableView.setItems(items);
-            itemCountLabel.setText(String.valueOf(items.size()));
+            showedItems = allItems;
         }
 
+        itemCountLabel.setText(String.valueOf(showedItems.size()));
+        mainTableView.setItems(showedItems);
         mainTableView.refresh();
     }
 
@@ -93,7 +98,8 @@ public class HelloController implements EventBusSubscriber {
     public void getEvent(Event event) {
         if (event instanceof ShowInTableEvent) {
             ShowInTableEvent e = (ShowInTableEvent) event;
-            items.setAll(e.getDesigns());
+            setNames.addAll(e.getSetList());
+            allItems.setAll(e.getDesigns());
 
             imageColumn.setCellFactory(data -> {
                 //Set up the ImageView
@@ -128,8 +134,8 @@ public class HelloController implements EventBusSubscriber {
             setColumn.getColumns().setAll(newSetColumns);
             diffColumn.setCellValueFactory(data -> data.getValue().diffProperty());
 
-            mainTableView.setItems(items);
-            itemCountLabel.setText(String.valueOf(items.size()));
+            mainTableView.setItems(allItems);
+            itemCountLabel.setText(String.valueOf(allItems.size()));
         }
     }
 
@@ -142,5 +148,31 @@ public class HelloController implements EventBusSubscriber {
     public void onLoadButtonPressed(ActionEvent actionEvent) {
         subscribe();
         EventBus.post(new SearchRequestEvent(searchTextField.getText()));
+    }
+
+    public void onSaveButtonPressed() {
+        Log.debug("Saving " + showedItems.size() + " lines");
+        List<String> linesToSave = new ArrayList<>(showedItems.size() + 1);
+        String columnSeparator = ",";
+
+        linesToSave.add("DesignID,Description,Own,Difference\n");
+
+        for (LegoTableItem legoTableItem : showedItems) {
+            StringBuilder str = new StringBuilder(legoTableItem.getDesignID() + columnSeparator +
+                    "\"" + legoTableItem.getDescription() + "\"" + columnSeparator +
+                    legoTableItem.getOwn() + columnSeparator +
+                    legoTableItem.getDiff());
+            for (String setName : setNames) {
+                str.append(columnSeparator).append(legoTableItem.getElements(setName).getValue().replace("\n", "; "));
+            }
+            linesToSave.add(str.toString());
+        }
+
+        try {
+            LegoFileWriter.saveLinesToFile(linesToSave, "export.csv");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }
