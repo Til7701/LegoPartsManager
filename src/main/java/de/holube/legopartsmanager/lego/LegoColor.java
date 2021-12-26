@@ -2,10 +2,13 @@ package de.holube.legopartsmanager.lego;
 
 public class LegoColor {
 
-    private String name;
-    private String rgb;
-    private int r, g, b;
-    private boolean transparent;
+    private final String name;
+    private final String rgb;
+    private final int r;
+    private final int g;
+    private final int b;
+    private final int intColor;
+    private final boolean transparent;
 
     public LegoColor(String name, String rgb, int r, int g, int b, boolean transparent) {
         this.name = name;
@@ -13,6 +16,7 @@ public class LegoColor {
         this.r = r;
         this.g = g;
         this.b = b;
+        this.intColor = (255<<24) | (r<<16) | (g<<8) | b;
         this.transparent = transparent;
     }
 
@@ -38,5 +42,9 @@ public class LegoColor {
 
     public boolean isTransparent() {
         return transparent;
+    }
+
+    public int getIntColor() {
+        return intColor;
     }
 }
