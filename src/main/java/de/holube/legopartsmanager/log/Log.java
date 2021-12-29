@@ -6,6 +6,10 @@ public class Log {
         log("DEBUG: " + message);
     }
 
+    public static void info(String message) {
+        log("INFO: " + message);
+    }
+
     public static void waring(String message) {
         log("WARNING: " + message);
     }
