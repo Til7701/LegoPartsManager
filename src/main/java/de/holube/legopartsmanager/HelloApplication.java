@@ -4,7 +4,9 @@ import de.holube.legopartsmanager.eventbus.Event;
 import de.holube.legopartsmanager.eventbus.EventBus;
 import de.holube.legopartsmanager.eventbus.EventBusSubscriber;
 import de.holube.legopartsmanager.eventbus.events.SearchRequestEvent;
-import de.holube.legopartsmanager.lego.*;
+import de.holube.legopartsmanager.lego.LegoSet;
+import de.holube.legopartsmanager.lego.LegoTableBuilder;
+import de.holube.legopartsmanager.lego.OwnLegoSet;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -18,7 +20,8 @@ public class HelloApplication extends Application implements EventBusSubscriber 
 
     private LegoSet titanicSet = new LegoSet("Titanic", "titanic.csv");
     private LegoSet falconSet = new LegoSet("Millennium Falcon", "millennium-falcon.csv");
-    private LegoSet r2d2Set = new LegoSet("R2-D2", "r2-d2.csv");
+    private LegoSet r2d2Set2012 = new LegoSet("R2-D2 2012", "r2-d2-2012.csv");
+    private LegoSet r2d2Set2021 = new LegoSet("R2-D2 2021", "r2-d2-2021.csv");
     private OwnLegoSet ownSet = new OwnLegoSet("ist-aufstellung.csv");
 
     private LegoTableBuilder legoTableBuilder = new LegoTableBuilder();
@@ -44,7 +47,8 @@ public class HelloApplication extends Application implements EventBusSubscriber 
             List<LegoSet> setsToShow = new ArrayList<>();
             //setsToShow.add(titanicSet);
             //setsToShow.add(falconSet);
-            setsToShow.add(r2d2Set);
+            setsToShow.add(r2d2Set2012);
+            setsToShow.add(r2d2Set2021);
             legoTableBuilder.prepareElementsInSets(setsToShow, ownSet);
         }
     }

@@ -1,5 +1,7 @@
 package de.holube.legopartsmanager.io;
 
+import de.holube.legopartsmanager.log.Log;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -13,7 +15,8 @@ public class LegoFileReader {
 
     }
 
-    public static List<String> readFile(String filename){
+    public static List<String> readFile(String filename) {
+        Log.debug("Loading: " + filename);
         List<String> lines = new ArrayList<>();
         try {
             FileReader fileReader = new FileReader(Objects.requireNonNull(LegoFileReader.class.getResource(filename)).getFile());
