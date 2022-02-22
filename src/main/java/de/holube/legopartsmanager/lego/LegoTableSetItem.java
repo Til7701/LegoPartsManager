@@ -3,12 +3,12 @@ package de.holube.legopartsmanager.lego;
 public class LegoTableSetItem {
     private final String elementID;
     private final int colorID;
-    private final int quanitity;
+    private final int quantity;
 
-    public LegoTableSetItem(String elementID, int colorID, int quanitity) {
+    public LegoTableSetItem(String elementID, int colorID, int quantity) {
         this.elementID = elementID;
         this.colorID = colorID;
-        this.quanitity = quanitity;
+        this.quantity = quantity;
     }
 
     public String getElementID() {
@@ -19,7 +19,7 @@ public class LegoTableSetItem {
         return colorID;
     }
 
-    public int getQuanitity() {
-        return quanitity;
+    public int getQuantity() {
+        return quantity;
     }
 }

@@ -69,13 +69,13 @@ public class LegoTableItem {
         for (LegoTableSetItem legoElement : elements) {
             builder.append(LegoDatabase.getLegoColorManager().getColor(legoElement.getColorID()).getName())
                     .append(": ")
-                    .append(legoElement.getQuanitity())
+                    .append(legoElement.getQuantity())
                     .append(" (")
                     .append(legoElement.getElementID())
                     .append(")\n");
         }
 
-        this.elementsList.put(setName,new SimpleStringProperty(builder.toString()));
+        this.elementsList.put(setName, new SimpleStringProperty(builder.toString()));
     }
 
     public int getDiff() {

@@ -63,8 +63,10 @@ public class LegoTableBuilder {
                                 LegoDatabase.getLegoElementManager().getElement(elementID).getColorID(),
                                 set.getQuantity(elementID).orElse(0))
                         );
-                        fullAmount += set.getQuantity(elementID).orElse(0);
                     }
+                }
+                for (LegoTableSetItem legoTableSetItem : legoTableSetItemList) {
+                    fullAmount += legoTableSetItem.getQuantity();
                 }
                 item.setElements(legoTableSetItemList, set.getName());
             }
