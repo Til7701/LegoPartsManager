@@ -65,6 +65,10 @@ public class HelloController implements EventBusSubscriber {
         filter();
     }
 
+    @FXML void onSearchBoxTyped()  {
+        filter();
+    }
+
     @FXML
     public void onToBuy() {
         filter();

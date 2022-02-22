@@ -6,7 +6,7 @@
 <AnchorPane xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.holube.legopartsmanager.HelloController">
     <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <HBox>
-            <TextField fx:id="searchTextField" />
+            <TextField fx:id="searchTextField" onKeyTyped="#onSearchBoxTyped" />
             <Button alignment="CENTER" mnemonicParsing="false" onAction="#onSearchButtonPressed" prefWidth="75.0" text="Search" />
             <Button alignment="CENTER" mnemonicParsing="false" onAction="#onLoadButtonPressed" prefWidth="75.0" text="Load" />
             <Button alignment="CENTER" mnemonicParsing="false" onAction="#onSaveButtonPressed" prefWidth="75.0" text="Save" />
