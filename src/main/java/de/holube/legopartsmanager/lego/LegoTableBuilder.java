@@ -34,47 +34,49 @@ public class LegoTableBuilder {
 
         designIDsToShow.addAll(ownSet.getDesignMap().keySet());
 
-        for (String designID : designIDsToShow) {
-            LegoTableItem item = new LegoTableItem();
-
-            URL path = getClass().getResource("parts/" + designID + ".png");
-            if (path != null) {
-                item.setImage(new Image(path.toExternalForm()));
-            } else {
-                Log.waring("Image not found: parts/" + designID + ".png");
-                item.setImage(new Image(errorImage));
-            }
-
-            item.setDesignID(designID);
-
-            LegoDatabase.getLegoDesignManager().getDesign(designID).ifPresent(design ->
-                    item.setDescription(design.getDescription())
-            );
-
-            item.setOwn(ownSet.getQuantity(designID));
-
-            int fullAmount = 0;
-            for (LegoSet set : list) {
-                List<LegoTableSetItem> legoTableSetItemList = new ArrayList<>();
-                for (String elementID : set.getElementIDs()) {
-                    LegoElement element = LegoDatabase.getLegoElementManager().getElement(elementID);
-                    if (element != null && element.getDesignID().equals(designID)) {
-                        legoTableSetItemList.add(new LegoTableSetItem(elementID,
-                                LegoDatabase.getLegoElementManager().getElement(elementID).getColorID(),
-                                set.getQuantity(elementID).orElse(0))
-                        );
-                    }
-                }
-                for (LegoTableSetItem legoTableSetItem : legoTableSetItemList) {
-                    fullAmount += legoTableSetItem.getQuantity();
-                }
-                item.setElements(legoTableSetItemList, set.getName());
-            }
-            item.setDiff(ownSet.getQuantity(designID) - fullAmount);
-
-            items.add(item);
-        }
+        designIDsToShow.stream().parallel().forEach(designID -> prepareDesignID(designID, list, ownSet, items));
 
         EventBus.post(new ShowInTableEvent(items, setNameList));
+    }
+
+    private void prepareDesignID(String designID, List<LegoSet> list, OwnLegoSet ownSet, List<LegoTableItem> items) {
+        LegoTableItem item = new LegoTableItem();
+
+        URL path = getClass().getResource("parts/" + designID + ".png");
+        if (path != null) {
+            item.setImage(new Image(path.toExternalForm()));
+        } else {
+            Log.waring("Image not found: parts/" + designID + ".png");
+            item.setImage(new Image(errorImage));
+        }
+
+        item.setDesignID(designID);
+
+        LegoDatabase.getLegoDesignManager().getDesign(designID).ifPresent(design ->
+                item.setDescription(design.getDescription())
+        );
+
+        item.setOwn(ownSet.getQuantity(designID));
+
+        int fullAmount = 0;
+        for (LegoSet set : list) {
+            List<LegoTableSetItem> legoTableSetItemList = new ArrayList<>();
+            for (String elementID : set.getElementIDs()) {
+                LegoElement element = LegoDatabase.getLegoElementManager().getElement(elementID);
+                if (element != null && element.getDesignID().equals(designID)) {
+                    legoTableSetItemList.add(new LegoTableSetItem(elementID,
+                            LegoDatabase.getLegoElementManager().getElement(elementID).getColorID(),
+                            set.getQuantity(elementID).orElse(0))
+                    );
+                }
+            }
+            for (LegoTableSetItem legoTableSetItem : legoTableSetItemList) {
+                fullAmount += legoTableSetItem.getQuantity();
+            }
+            item.setElements(legoTableSetItemList, set.getName());
+        }
+        item.setDiff(ownSet.getQuantity(designID) - fullAmount);
+
+        items.add(item);
     }
 }
