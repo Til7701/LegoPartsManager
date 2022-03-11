@@ -3,6 +3,7 @@ package de.holube.legopartsmanager.lego;
 import javafx.beans.property.*;
 import javafx.scene.image.Image;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +14,8 @@ public class LegoTableItem {
     private final StringProperty designID = new SimpleStringProperty();
     private final StringProperty description = new SimpleStringProperty();
     private final IntegerProperty own = new SimpleIntegerProperty();
-    private final Map<String, StringProperty> elementsList = new HashMap<>();
+    private final Map<String, List<LegoTableSetItem>> elementsList = new HashMap<>();
+    private final Map<String, StringProperty> elementsListString = new HashMap<>();
     private final IntegerProperty diff = new SimpleIntegerProperty();
 
     public void setImage(Image image) {
@@ -61,11 +63,12 @@ public class LegoTableItem {
     }
 
     public StringProperty getElements(String setName) {
-        return elementsList.get(setName);
+        return elementsListString.get(setName);
     }
 
     public void setElements(List<LegoTableSetItem> elements, String setName) {
         StringBuilder builder = new StringBuilder();
+        elementsList.put(setName, elements);
         for (LegoTableSetItem legoElement : elements) {
             builder.append(LegoDatabase.getLegoColorManager().getColor(legoElement.getColorID()).getName())
                     .append(": ")
@@ -75,7 +78,23 @@ public class LegoTableItem {
                     .append(")\n");
         }
 
-        this.elementsList.put(setName, new SimpleStringProperty(builder.toString()));
+        this.elementsListString.put(setName, new SimpleStringProperty(builder.toString()));
+    }
+
+    public Map<String, List<LegoTableSetItem>> getLegoTableSetItemMap() {
+        return elementsList;
+    }
+
+    public int getTotalNumOfPartsInSets(Collection<String> setNames) {
+        int amount = 0;
+        for (String setName : setNames) {
+            if (elementsList.containsKey(setName)) {
+                for (LegoTableSetItem ltsi : elementsList.get(setName)) {
+                    amount += ltsi.getQuantity();
+                }
+            }
+        }
+        return amount;
     }
 
     public int getDiff() {

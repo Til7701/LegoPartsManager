@@ -17,8 +17,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class HelloController implements EventBusSubscriber {
@@ -57,6 +56,8 @@ public class HelloController implements EventBusSubscriber {
     private TableColumn<LegoTableItem, Number> diffColumn;
 
     private final List<String> setNames = new ArrayList<>();
+    private final Set<String> selectedSetNames = new HashSet<>();
+    private final Map<String, CheckBox> setCheckBoxes = new HashMap<>();
     private final ObservableList<LegoTableItem> allItems = FXCollections.observableArrayList();
     private ObservableList<LegoTableItem> showedItems = FXCollections.observableArrayList();
 
@@ -65,7 +66,8 @@ public class HelloController implements EventBusSubscriber {
         filter();
     }
 
-    @FXML void onSearchBoxTyped()  {
+    @FXML
+    void onSearchBoxTyped() {
         filter();
     }
 
@@ -79,7 +81,7 @@ public class HelloController implements EventBusSubscriber {
             if (!searchTextField.getText().isBlank()) {
                 showedItems = FXCollections.observableArrayList(allItems.stream().filter(item -> (item.descriptionProperty().getValue() != null
                         && item.descriptionProperty().getValue().contains(searchTextField.getText()))
-                        || item.designIDProperty().getValue().contains(searchTextField.getText())).collect(Collectors.toList())
+                        || item.designIDProperty().getValue().contains(searchTextField.getText())).toList()
                 );
             } else {
                 showedItems = allItems;
@@ -100,9 +102,9 @@ public class HelloController implements EventBusSubscriber {
 
     @Override
     public void getEvent(Event event) {
-        if (event instanceof ShowInTableEvent) {
-            ShowInTableEvent e = (ShowInTableEvent) event;
+        if (event instanceof ShowInTableEvent e) {
             setNames.addAll(e.getSetList());
+            selectedSetNames.addAll(e.getSetList());
             allItems.setAll(e.getDesigns());
 
             imageColumn.setCellFactory(data -> {
@@ -132,15 +134,35 @@ public class HelloController implements EventBusSubscriber {
             for (String setName : e.getSetList()) {
                 TableColumn<LegoTableItem, String> c = new TableColumn<>();
                 c.textProperty().setValue(setName);
+                CheckBox checkBox = new CheckBox();
+                checkBox.setOnAction(actionEvent -> onSetCheckBox(actionEvent, setName));
+                checkBox.selectedProperty().set(true);
+                setCheckBoxes.put(setName, checkBox);
+                c.setGraphic(checkBox);
                 c.setCellValueFactory(data -> data.getValue().getElements(setName));
                 newSetColumns.add(c);
             }
             setColumn.getColumns().setAll(newSetColumns);
             diffColumn.setCellValueFactory(data -> data.getValue().diffProperty());
+            calculateDiff();
 
             mainTableView.setItems(allItems);
             itemCountLabel.setText(String.valueOf(allItems.size()));
         }
+    }
+
+    private void onSetCheckBox(ActionEvent event, String setName) {
+        if (setCheckBoxes.get(setName).isSelected()) selectedSetNames.add(setName);
+        else selectedSetNames.remove(setName);
+
+        calculateDiff();
+    }
+
+    private void calculateDiff() {
+        allItems.forEach(legoTableItem -> {
+            int amountInSelectedSets = legoTableItem.getTotalNumOfPartsInSets(selectedSetNames);
+            legoTableItem.setDiff(legoTableItem.getOwn() - amountInSelectedSets);
+        });
     }
 
     @Override

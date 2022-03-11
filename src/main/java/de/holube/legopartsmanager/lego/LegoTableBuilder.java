@@ -10,7 +10,7 @@ import java.util.*;
 
 public class LegoTableBuilder {
 
-    private String errorImage = Objects.requireNonNull(getClass().getResource("error-image.png")).toExternalForm();
+    private final String errorImage = Objects.requireNonNull(getClass().getResource("error-image.png")).toExternalForm();
 
     public LegoTableBuilder() {
 
@@ -47,15 +47,15 @@ public class LegoTableBuilder {
 
             item.setDesignID(designID);
 
-            if (LegoDatabase.getLegoDesignManager().getDesign(designID).isPresent()) {
-                item.setDescription(LegoDatabase.getLegoDesignManager().getDesign(designID).get().getDescription());
-            }
+            LegoDatabase.getLegoDesignManager().getDesign(designID).ifPresent(design ->
+                    item.setDescription(design.getDescription())
+            );
 
             item.setOwn(ownSet.getQuantity(designID));
 
-            List<LegoTableSetItem> legoTableSetItemList = new ArrayList<>();
             int fullAmount = 0;
             for (LegoSet set : list) {
+                List<LegoTableSetItem> legoTableSetItemList = new ArrayList<>();
                 for (String elementID : set.getElementIDs()) {
                     LegoElement element = LegoDatabase.getLegoElementManager().getElement(elementID);
                     if (element != null && element.getDesignID().equals(designID)) {

@@ -1,6 +1,7 @@
 package de.holube.legopartsmanager.lego;
 
 public class LegoTableSetItem {
+
     private final String elementID;
     private final int colorID;
     private final int quantity;
