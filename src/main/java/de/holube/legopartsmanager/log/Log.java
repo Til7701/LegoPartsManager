@@ -2,6 +2,9 @@ package de.holube.legopartsmanager.log;
 
 public class Log {
 
+    private Log() {
+    }
+
     public static void debug(String message) {
         log("DEBUG: " + message);
     }
