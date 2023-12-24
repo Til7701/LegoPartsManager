@@ -28,6 +28,7 @@ public class OwnLegoSet {
 
     private void readSet(String filename) {
         List<String> fileLines = LegoFileReader.readFile(filename);
+        int faultyLines = 0;
 
         for (int i = 1; i < fileLines.size(); i++) {
             String[] lineArray = fileLines.get(i).split(",");
@@ -35,7 +36,9 @@ public class OwnLegoSet {
                 designMap.put(lineArray[1], Integer.parseInt(lineArray[2]));
             } else {
                 Log.waring("Not properly defined Design in " + filename + " line: " + i + ": " + fileLines.get(i));
+                faultyLines++;
             }
         }
+        Log.waring(faultyLines + " faulty lines in " + filename);
     }
 }
