@@ -24,6 +24,7 @@ public class HelloApplication extends Application implements EventBusSubscriber 
     //private LegoSet r2d2Set2021 = new LegoSet("R2-D2 2021", "r2-d2-2021.csv");
     //private LegoSet yodaSet = new LegoSet("Yoda", "yoda.csv");
     //private LegoSet nightSet = new LegoSet("The Starry Night", "the-starry-night.csv");
+    private LegoSet hogwartsSet = new LegoSet("Hogwarts", "hogwarts.csv");
     private OwnLegoSet ownSet = new OwnLegoSet("ist-aufstellung.csv");
 
     private LegoTableBuilder legoTableBuilder = new LegoTableBuilder();
@@ -53,6 +54,7 @@ public class HelloApplication extends Application implements EventBusSubscriber 
             //setsToShow.add(r2d2Set2021);
             //setsToShow.add(yodaSet);
             //setsToShow.add(nightSet);
+            setsToShow.add(hogwartsSet);
             legoTableBuilder.prepareElementsInSets(setsToShow, ownSet);
         }
     }

@@ -31,7 +31,7 @@ public class LegoElementManager {
 
         for (int i = 1; i < fileLines.size(); i++) {
             String[] lineArray = fileLines.get(i).split(",");
-            if (lineArray.length == 3) {
+            if (lineArray.length >= 3) {
                 elementMap.put(lineArray[0], new LegoElement(LegoDesign.getSimpleDesignID(lineArray[1]), Integer.parseInt(lineArray[2])));
             } else {
                 Log.waring("Not properly defined Element in " + filename + " line: " + i + ": " + fileLines.get(i));
