@@ -6,7 +6,6 @@ import de.holube.legopartsmanager.log.Log;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 public class OwnLegoSet {
 
@@ -32,7 +31,7 @@ public class OwnLegoSet {
 
         for (int i = 1; i < fileLines.size(); i++) {
             String[] lineArray = fileLines.get(i).split(",");
-            if (lineArray.length >= 2) {
+            if (lineArray.length >= 3) {
                 designMap.put(lineArray[1], Integer.parseInt(lineArray[2]));
             } else {
                 Log.waring("Not properly defined Design in " + filename + " line: " + i + ": " + fileLines.get(i));
