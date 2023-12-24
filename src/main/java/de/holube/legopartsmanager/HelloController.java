@@ -22,43 +22,32 @@ import java.util.stream.Collectors;
 
 public class HelloController implements EventBusSubscriber {
 
-    @FXML
-    private TextField searchTextField;
-
-    @FXML
-    private TextField imageSizeField;
-
-    @FXML
-    private Label itemCountLabel;
-
-    @FXML
-    private CheckBox toBuyCheckBox;
-
-    @FXML
-    private TableView<LegoTableItem> mainTableView;
-
-    @FXML
-    private TableColumn<LegoTableItem, Image> imageColumn;
-
-    @FXML
-    private TableColumn<LegoTableItem, String> designIDColumn;
-
-    @FXML
-    private TableColumn<LegoTableItem, String> descriptionColumn;
-
-    @FXML
-    private TableColumn<LegoTableItem, Number> ownColumn;
-
-    @FXML
-    private TableColumn<LegoTableItem, Number> setColumn;
-
-    @FXML
-    private TableColumn<LegoTableItem, Number> diffColumn;
-
     private final List<String> setNames = new ArrayList<>();
     private final Set<String> selectedSetNames = new HashSet<>();
     private final Map<String, CheckBox> setCheckBoxes = new HashMap<>();
     private final ObservableList<LegoTableItem> allItems = FXCollections.observableArrayList();
+    @FXML
+    private TextField searchTextField;
+    @FXML
+    private TextField imageSizeField;
+    @FXML
+    private Label itemCountLabel;
+    @FXML
+    private CheckBox toBuyCheckBox;
+    @FXML
+    private TableView<LegoTableItem> mainTableView;
+    @FXML
+    private TableColumn<LegoTableItem, Image> imageColumn;
+    @FXML
+    private TableColumn<LegoTableItem, String> designIDColumn;
+    @FXML
+    private TableColumn<LegoTableItem, String> descriptionColumn;
+    @FXML
+    private TableColumn<LegoTableItem, Number> ownColumn;
+    @FXML
+    private TableColumn<LegoTableItem, Number> setColumn;
+    @FXML
+    private TableColumn<LegoTableItem, Number> diffColumn;
     private ObservableList<LegoTableItem> showedItems = FXCollections.observableArrayList();
 
     @FXML
@@ -80,7 +69,7 @@ public class HelloController implements EventBusSubscriber {
         if (toBuyCheckBox.isSelected() || !searchTextField.getText().isBlank()) {
             if (!searchTextField.getText().isBlank()) {
                 showedItems = FXCollections.observableArrayList(allItems.stream().filter(item -> (item.descriptionProperty().getValue() != null
-                        && item.descriptionProperty().getValue().contains(searchTextField.getText()))
+                        && item.descriptionProperty().getValue().toLowerCase().contains(searchTextField.getText().toLowerCase()))
                         || item.designIDProperty().getValue().contains(searchTextField.getText())).toList()
                 );
             } else {
