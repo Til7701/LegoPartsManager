@@ -18,15 +18,19 @@ import java.util.List;
 
 public class HelloApplication extends Application implements EventBusSubscriber {
 
-    private LegoSet titanicSet = new LegoSet("Titanic", "titanic.csv");
-    private LegoSet falconSet = new LegoSet("Millennium Falcon", "millennium-falcon.csv");
-    private LegoSet r2d2Set2012 = new LegoSet("R2-D2 2012", "r2-d2-2012.csv");
-    private LegoSet r2d2Set2021 = new LegoSet("R2-D2 2021", "r2-d2-2021.csv");
-    private LegoSet yodaSet = new LegoSet("Yoda", "yoda.csv");
-    private LegoSet nightSet = new LegoSet("The Starry Night", "the-starry-night.csv");
+    //private LegoSet titanicSet = new LegoSet("Titanic", "titanic.csv");
+    //private LegoSet falconSet = new LegoSet("Millennium Falcon", "millennium-falcon.csv");
+    //private LegoSet r2d2Set2012 = new LegoSet("R2-D2 2012", "r2-d2-2012.csv");
+    //private LegoSet r2d2Set2021 = new LegoSet("R2-D2 2021", "r2-d2-2021.csv");
+    //private LegoSet yodaSet = new LegoSet("Yoda", "yoda.csv");
+    //private LegoSet nightSet = new LegoSet("The Starry Night", "the-starry-night.csv");
     private OwnLegoSet ownSet = new OwnLegoSet("ist-aufstellung.csv");
 
     private LegoTableBuilder legoTableBuilder = new LegoTableBuilder();
+
+    public static void main(String[] args) {
+        launch();
+    }
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -39,20 +43,16 @@ public class HelloApplication extends Application implements EventBusSubscriber 
         subscribe();
     }
 
-    public static void main(String[] args) {
-        launch();
-    }
-
     @Override
     public void getEvent(Event event) {
         if (event instanceof SearchRequestEvent) {
             List<LegoSet> setsToShow = new ArrayList<>();
-            setsToShow.add(titanicSet);
+            //setsToShow.add(titanicSet);
             //setsToShow.add(falconSet);
-            setsToShow.add(r2d2Set2012);
-            setsToShow.add(r2d2Set2021);
-            setsToShow.add(yodaSet);
-            setsToShow.add(nightSet);
+            //setsToShow.add(r2d2Set2012);
+            //setsToShow.add(r2d2Set2021);
+            //setsToShow.add(yodaSet);
+            //setsToShow.add(nightSet);
             legoTableBuilder.prepareElementsInSets(setsToShow, ownSet);
         }
     }
