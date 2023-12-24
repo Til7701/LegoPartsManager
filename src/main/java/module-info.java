@@ -6,4 +6,5 @@ module de.holube.legopartsmanager {
 
     opens de.holube.legopartsmanager to javafx.graphics, javafx.fxml, javafx.base;
     exports de.holube.legopartsmanager;
+    exports de.holube.legopartsmanager.eventbus;
 }
