@@ -84,6 +84,11 @@ public class HelloController implements EventBusSubscriber {
             showedItems = allItems;
         }
 
+        /*showedItems = FXCollections.observableArrayList(showedItems.stream().filter(item -> (
+                        !item.getLegoTableSetItemMap().get("Hogwarts").isEmpty())
+                ).toList()
+        );*/
+
         itemCountLabel.setText(String.valueOf(showedItems.size()));
         mainTableView.setItems(showedItems);
         mainTableView.refresh();
